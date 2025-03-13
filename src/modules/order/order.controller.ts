@@ -5,23 +5,33 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Controller('orders')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly orderService: OrderService) { }
 
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.createOrder(createOrderDto);
+    try {
+      return this.orderService.createOrder(createOrderDto);
+    } catch (error) {
+      throw error
+    }
   }
 
   @Get()
   findAll() {
-    return this.orderService.getOrders();
+    try {
+      return this.orderService.getOrders();
+    } catch (error) {
+      throw error
+    }
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.orderService.getOrderOne(+id);
+    try {
+      return this.orderService.getOrderOne(+id);
+    } catch (error) {
+      throw error
+    }
   }
-
-
 }
